@@ -1,15 +1,9 @@
-package main
+package models
 
 import (
 	"encoding/json"
 	"fmt"
 )
-
-type Problem struct {
-	Products []Product
-	Stores   []Store
-	Basket   Basket
-}
 
 type StoreID int
 type DayOfferings map[int][]StoreProduct
@@ -20,9 +14,9 @@ type Store struct {
 	DayOfferings DayOfferings
 }
 
-type Basket struct {
-	Products []ProductOrder
-	MaxDays  int
+type StoreProduct struct {
+	ID    ProductID
+	Price int
 }
 
 // Tranforms JSON array into Go map instead of Go slice
