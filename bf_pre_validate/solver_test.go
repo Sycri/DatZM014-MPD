@@ -8,7 +8,7 @@ import (
 )
 
 func TestSolve01(t *testing.T) {
-	problem, err := utils.GetProblemFromFile("../test_data/01_input.json")
+	problem, err := utils.GetProblemFromFile("../testdata/01_input.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -16,7 +16,7 @@ func TestSolve01(t *testing.T) {
 	solver := bf_pre_validate.Solver{}
 	actual := solver.Solve(problem)
 
-	expected, err := utils.GetSolutionFromFile("../test_data/01_output.json")
+	expected, err := utils.GetSolutionFromFile("../testdata/01_output.json")
 	if err != nil {
 		t.Fatal(err)
 	}
