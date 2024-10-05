@@ -1,4 +1,4 @@
-package bf_pre_validate
+package bruteforce_prevalid
 
 import (
 	"math"
@@ -7,13 +7,9 @@ import (
 	"github.com/Sycri/DatZM014-MPD/models"
 )
 
-const (
-	penaltyPerExtraDay = 100 // Cost per each extra day
-)
-
 type Solver struct{}
 
-func (_ *Solver) calculateUsedDayCount(combination *models.Combination) int {
+func (*Solver) calculateUsedDayCount(combination *models.Combination) int {
 	days := make(map[int]bool, len(*combination))
 
 	for _, storeDayProduct := range *combination {
@@ -23,7 +19,7 @@ func (_ *Solver) calculateUsedDayCount(combination *models.Combination) int {
 	return len(days)
 }
 
-func (_ *Solver) calculateTotalProductCost(
+func (*Solver) calculateTotalProductCost(
 	combination *models.Combination,
 	basketProducts *[]models.BasketProduct,
 ) int64 {
@@ -41,7 +37,7 @@ func (_ *Solver) calculateTotalProductCost(
 	return totalProductCost
 }
 
-func (_ *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
+func (*Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
 	if len(*stores) == 0 {
 		return &[]models.Combination{}
 	}
@@ -88,37 +84,6 @@ func (_ *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.
 	return &combinations
 }
 
-func (_ *Solver) calculateTotalCost(
-	basket *models.Basket,
-	combination *models.Combination,
-) (bool, int64) {
-	totalCost := int64(0)
-	usedDays := make(map[int]bool, len(*combination))
-
-	for _, basketProduct := range basket.Products {
-		elementIndex := slices.IndexFunc(*combination, func(element models.ChosenStoreProduct) bool {
-			return element.ProductID == basketProduct.ID
-		})
-
-		// Reject combination if a product in the basket is not in this combination
-		if elementIndex == -1 {
-			return false, int64(math.MaxInt64)
-		}
-
-		totalCost += int64((*combination)[elementIndex].Price * basketProduct.Quantity)
-		usedDays[(*combination)[elementIndex].Day] = true
-	}
-
-	usedDayCount := len(usedDays)
-
-	// Soft constraint: apply penalty if more days are used than allowed
-	if usedDayCount > basket.SoftMaxDays {
-		totalCost += penaltyPerExtraDay * int64(usedDayCount-basket.SoftMaxDays)
-	}
-
-	return true, totalCost
-}
-
 func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	solution := &models.Solution{
 		TotalCost: int64(math.MaxInt64),
@@ -127,7 +92,7 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	// Iterate over all possible combinations
 	allCombinations := s.generateAllValidCombinations(&problem.Stores)
 	for _, newCombination := range *allCombinations {
-		if valid, newTotalCost := s.calculateTotalCost(&problem.Basket, &newCombination); valid {
+		if valid, newTotalCost := newCombination.CalculateTotalCost(&problem.Basket); valid {
 			// Check if this is the new best combination
 			if solution.TotalCost > newTotalCost {
 				solution.TotalCost = newTotalCost

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Sycri/DatZM014-MPD/bf_post_validate"
-	"github.com/Sycri/DatZM014-MPD/bf_pre_validate"
+	"github.com/Sycri/DatZM014-MPD/bruteforce"
+	"github.com/Sycri/DatZM014-MPD/bruteforce_prevalid"
 	"github.com/Sycri/DatZM014-MPD/models"
 	"github.com/Sycri/DatZM014-MPD/utils"
 )
@@ -24,8 +24,8 @@ func main() {
 	fmt.Printf("Problem: %s\n", string(jsonBytes))
 
 	solvers := map[models.Solver]string{
-		&bf_pre_validate.Solver{}:  "Bruteforce pre-validate",
-		&bf_post_validate.Solver{}: "Bruteforce post-validate",
+		&bruteforce_prevalid.Solver{}: "Bruteforce pre-validation",
+		&bruteforce.Solver{}:          "Bruteforce no pre-validation",
 	}
 
 	for solver, name := range solvers {

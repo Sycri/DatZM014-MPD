@@ -1,9 +1,9 @@
-package bf_post_validate_test
+package bruteforce_prevalid_test
 
 import (
 	"testing"
 
-	"github.com/Sycri/DatZM014-MPD/bf_post_validate"
+	"github.com/Sycri/DatZM014-MPD/bruteforce_prevalid"
 	"github.com/Sycri/DatZM014-MPD/utils"
 )
 
@@ -13,7 +13,7 @@ func TestSolve01(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solver := bf_post_validate.Solver{}
+	solver := bruteforce_prevalid.Solver{}
 	actual := solver.Solve(problem)
 
 	expected, err := utils.GetSolutionFromFile("../testdata/01_output.json")

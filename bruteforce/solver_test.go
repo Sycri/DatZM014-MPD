@@ -1,9 +1,9 @@
-package bf_pre_validate_test
+package bruteforce_test
 
 import (
 	"testing"
 
-	"github.com/Sycri/DatZM014-MPD/bf_pre_validate"
+	"github.com/Sycri/DatZM014-MPD/bruteforce"
 	"github.com/Sycri/DatZM014-MPD/utils"
 )
 
@@ -13,7 +13,7 @@ func TestSolve01(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solver := bf_pre_validate.Solver{}
+	solver := bruteforce.Solver{}
 	actual := solver.Solve(problem)
 
 	expected, err := utils.GetSolutionFromFile("../testdata/01_output.json")
