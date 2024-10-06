@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	problem, err := utils.GetProblemFromFile("./input.json")
+	problem, err := utils.GetProblemFromFile("./testdata/01_input.json")
 	if err != nil {
 		panic(err)
 	}
