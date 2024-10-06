@@ -9,17 +9,14 @@ import (
 
 type Solver struct{}
 
-func (*Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
-	if len(*stores) == 0 {
-		return &[]models.Combination{}
-	}
+func (*Solver) getFlattenedElements(stores *[]models.Store) *[]models.ChosenStoreProduct {
+	flattenedElements := []models.ChosenStoreProduct{}
 
 	// Flatten store products in each day to a single array
-	initialElements := []models.ChosenStoreProduct{}
 	for _, store := range *stores {
 		for day, products := range store.DayOfferings {
 			for _, product := range products {
-				initialElements = append(initialElements, models.ChosenStoreProduct{
+				flattenedElements = append(flattenedElements, models.ChosenStoreProduct{
 					StoreID:   store.ID,
 					Day:       day,
 					ProductID: product.ID,
@@ -29,15 +26,25 @@ func (*Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Co
 		}
 	}
 
+	return &flattenedElements
+}
+
+func (s *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
+	if len(*stores) == 0 {
+		return &[]models.Combination{}
+	}
+
+	initialElements := s.getFlattenedElements(stores)
+
 	combinations := []models.Combination{}
 
 	// Initialize each combination with first element
-	for _, initialElement := range initialElements {
+	for _, initialElement := range *initialElements {
 		combinations = append(combinations, models.Combination{initialElement})
 	}
 
 	// Generate all combinations
-	for _, initialElement := range initialElements {
+	for _, initialElement := range *initialElements {
 		newCombinations := []models.Combination{}
 
 		for _, combination := range combinations {
@@ -58,19 +65,19 @@ func (*Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Co
 
 func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	solution := &models.Solution{
-		TotalCost: int64(math.MaxInt64),
+		Cost: int64(math.MaxInt64),
 	}
 
 	// Iterate over all possible combinations
 	allCombinations := s.generateAllValidCombinations(&problem.Stores)
 	for _, newCombination := range *allCombinations {
-		if valid, newTotalCost, newTotalProductCost, newUsedDayCount := newCombination.CalculateTotalCost(
+		if valid, newCost, newProductCost, newUsedDayCount := newCombination.CalculateCost(
 			&problem.Basket,
 		); valid {
 			// Check if this is the new best combination
-			if solution.TotalCost > newTotalCost {
-				solution.TotalCost = newTotalCost
-				solution.TotalProductCost = newTotalProductCost
+			if solution.Cost > newCost {
+				solution.Cost = newCost
+				solution.ProductCost = newProductCost
 				solution.UsedDayCount = newUsedDayCount
 				solution.Combination = newCombination
 			}

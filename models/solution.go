@@ -5,8 +5,8 @@ type Solver interface {
 }
 
 type Solution struct {
-	Combination      Combination
-	UsedDayCount     int
-	TotalProductCost int64
-	TotalCost        int64
+	Combination  Combination
+	UsedDayCount int
+	ProductCost  int64
+	Cost         int64
 }

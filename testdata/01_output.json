@@ -20,6 +20,6 @@
         }
     ],
     "UsedDayCount": 2,
-    "TotalProductCost": 110,
-    "TotalCost": 110
+    "ProductCost": 110,
+    "Cost": 110
 }

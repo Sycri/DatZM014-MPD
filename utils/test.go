@@ -8,12 +8,12 @@ import (
 )
 
 func CompareSolve(t *testing.T, expected *models.Solution, actual *models.Solution) {
-	if actual.TotalCost != expected.TotalCost {
-		t.Errorf("TotalCost expected %d, got %d", expected.TotalCost, actual.TotalCost)
+	if actual.Cost != expected.Cost {
+		t.Errorf("Cost expected %d, got %d", expected.Cost, actual.Cost)
 	}
 
-	if actual.TotalProductCost != expected.TotalProductCost {
-		t.Errorf("TotalProductCost expected %d, got %d", expected.TotalProductCost, actual.TotalProductCost)
+	if actual.ProductCost != expected.ProductCost {
+		t.Errorf("ProductCost expected %d, got %d", expected.ProductCost, actual.ProductCost)
 	}
 
 	if actual.UsedDayCount != expected.UsedDayCount {
