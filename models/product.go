@@ -18,7 +18,7 @@ type ChosenStoreProduct struct {
 	Price     int
 }
 
-func (c *Combination) CalculateTotalCost(basket *Basket) (bool, int64) {
+func (c *Combination) CalculateTotalCost(basket *Basket) (bool, int64, int64, int) {
 	totalCost := int64(0)
 	usedDays := make(map[int]bool, len(*c))
 
@@ -29,13 +29,14 @@ func (c *Combination) CalculateTotalCost(basket *Basket) (bool, int64) {
 
 		// Reject combination if a product in the basket is not in this combination
 		if elementIndex == -1 {
-			return false, int64(math.MaxInt64)
+			return false, int64(math.MaxInt64), -1, -1
 		}
 
 		totalCost += int64((*c)[elementIndex].Price * basketProduct.Quantity)
 		usedDays[(*c)[elementIndex].Day] = true
 	}
 
+	totalProductCost := totalCost
 	usedDayCount := len(usedDays)
 
 	// Soft constraint: apply penalty if more days are used than allowed
@@ -43,5 +44,5 @@ func (c *Combination) CalculateTotalCost(basket *Basket) (bool, int64) {
 		totalCost += constants.PenaltyPerExtraDay * int64(usedDayCount-basket.SoftMaxDays)
 	}
 
-	return true, totalCost
+	return true, totalCost, totalProductCost, usedDayCount
 }

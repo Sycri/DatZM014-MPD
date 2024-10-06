@@ -9,34 +9,6 @@ import (
 
 type Solver struct{}
 
-func (*Solver) calculateUsedDayCount(combination *models.Combination) int {
-	days := make(map[int]bool, len(*combination))
-
-	for _, storeDayProduct := range *combination {
-		days[storeDayProduct.Day] = true
-	}
-
-	return len(days)
-}
-
-func (*Solver) calculateTotalProductCost(
-	combination *models.Combination,
-	basketProducts *[]models.BasketProduct,
-) int64 {
-	totalProductCost := int64(0)
-
-	for _, storeDayProduct := range *combination {
-		for _, basketProduct := range *basketProducts {
-			if basketProduct.ID == storeDayProduct.ProductID {
-				totalProductCost += int64(storeDayProduct.Price * basketProduct.Quantity)
-				break
-			}
-		}
-	}
-
-	return totalProductCost
-}
-
 func (*Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
 	if len(*stores) == 0 {
 		return &[]models.Combination{}
@@ -92,17 +64,18 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	// Iterate over all possible combinations
 	allCombinations := s.generateAllValidCombinations(&problem.Stores)
 	for _, newCombination := range *allCombinations {
-		if valid, newTotalCost := newCombination.CalculateTotalCost(&problem.Basket); valid {
+		if valid, newTotalCost, newTotalProductCost, newUsedDayCount := newCombination.CalculateTotalCost(
+			&problem.Basket,
+		); valid {
 			// Check if this is the new best combination
 			if solution.TotalCost > newTotalCost {
 				solution.TotalCost = newTotalCost
+				solution.TotalProductCost = newTotalProductCost
+				solution.UsedDayCount = newUsedDayCount
 				solution.Combination = newCombination
 			}
 		}
 	}
-
-	solution.UsedDayCount = s.calculateUsedDayCount(&solution.Combination)
-	solution.TotalProductCost = s.calculateTotalProductCost(&solution.Combination, &problem.Basket.Products)
 
 	return solution
 }
