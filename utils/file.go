@@ -3,36 +3,33 @@ package utils
 import (
 	"encoding/json"
 	"os"
-
-	"github.com/Sycri/DatZM014-MPD/models"
 )
 
-func GetProblemFromFile(filePath string) (*models.Problem, error) {
+func GetObjectFromFile[T any](filePath string) (*T, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	problem := &models.Problem{}
-	if err := json.NewDecoder(file).Decode(problem); err != nil {
+	object := new(T)
+	if err := json.NewDecoder(file).Decode(object); err != nil {
 		return nil, err
 	}
 
-	return problem, nil
+	return object, nil
 }
 
-func GetSolutionFromFile(filePath string) (*models.Solution, error) {
-	file, err := os.Open(filePath)
+func PutObjectToFile(filePath string, object any) error {
+	file, err := os.Create(filePath)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer file.Close()
 
-	solution := &models.Solution{}
-	if err := json.NewDecoder(file).Decode(solution); err != nil {
-		return nil, err
+	if err := json.NewEncoder(file).Encode(object); err != nil {
+		return err
 	}
 
-	return solution, nil
+	return nil
 }
