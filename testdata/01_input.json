@@ -7,23 +7,14 @@
                 {
                     "Day": 1,
                     "Products": [
-                        {
-                            "ID": 1,
-                            "Price": 10
-                        },
-                        {
-                            "ID": 2,
-                            "Price": 20
-                        }
+                        { "ID": 1, "Price": 10 },
+                        { "ID": 2, "Price": 20 }
                     ]
                 },
                 {
                     "Day": 2,
                     "Products": [
-                        {
-                            "ID": 3,
-                            "Price": 30
-                        }
+                        { "ID": 3, "Price": 30 }
                     ]
                 }
             ]
@@ -35,10 +26,7 @@
                 {
                     "Day": 3,
                     "Products": [
-                        {
-                            "ID": 1,
-                            "Price": 5
-                        }
+                        { "ID": 1, "Price": 5 }
                     ]
                 }
             ]
@@ -46,18 +34,9 @@
     ],
     "Basket": {
         "Products": [
-            {
-                "ID": 1,
-                "Quantity": 2
-            },
-            {
-                "ID": 2,
-                "Quantity": 3
-            },
-            {
-                "ID": 3,
-                "Quantity": 1
-            }
+            { "ID": 1, "Quantity": 2 },
+            { "ID": 2, "Quantity": 3 },
+            { "ID": 3, "Quantity": 1 }
         ],
         "SoftMaxDays": 2
     }
