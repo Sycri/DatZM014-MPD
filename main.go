@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/Sycri/DatZM014-MPD/bruteforce"
 	"github.com/Sycri/DatZM014-MPD/bruteforce_prevalid"
@@ -31,13 +32,15 @@ func main() {
 	}
 
 	for solver, name := range solvers {
+		startTime := time.Now()
 		solution := solver.Solve(problem)
+		elapsedTime := time.Since(startTime)
 
 		jsonBytes, err = json.Marshal(solution)
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Printf("%s solver solution: %s\n", name, string(jsonBytes))
+		fmt.Printf("%s solver solution (%s): %s\n", name, elapsedTime, string(jsonBytes))
 	}
 }
