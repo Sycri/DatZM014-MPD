@@ -18,22 +18,33 @@ type ChosenStoreProduct struct {
 	Price     int
 }
 
-func (c *Combination) CalculateCost(basket *Basket) (bool, int64, int64, int) {
+func (c *Combination) CalculateCost(basket *Basket, validate bool) (bool, int64, int64, int) {
 	cost := int64(0)
 	usedDays := make(map[int]bool, len(*c))
 
-	for _, basketProduct := range basket.Products {
-		elementIndex := slices.IndexFunc(*c, func(element ChosenStoreProduct) bool {
+	if validate {
+		for _, basketProduct := range basket.Products {
+			// Reject combination if a product in the basket is not in this combination
+			if !slices.ContainsFunc(*c, func(element ChosenStoreProduct) bool {
+				return basketProduct.ID == element.ProductID
+			}) {
+				return false, int64(math.MaxInt64), -1, -1
+			}
+		}
+	}
+
+	for _, element := range *c {
+		basketProductIndex := slices.IndexFunc(basket.Products, func(basketProduct BasketProduct) bool {
 			return element.ProductID == basketProduct.ID
 		})
 
-		// Reject combination if a product in the basket is not in this combination
-		if elementIndex == -1 {
+		if basketProductIndex == -1 {
+			// Should never reach this point if validate is true
 			return false, int64(math.MaxInt64), -1, -1
 		}
 
-		cost += int64((*c)[elementIndex].Price * basketProduct.Quantity)
-		usedDays[(*c)[elementIndex].Day] = true
+		cost += int64(element.Price * basket.Products[basketProductIndex].Quantity)
+		usedDays[element.Day] = true
 	}
 
 	productCost := cost

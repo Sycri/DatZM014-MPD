@@ -102,7 +102,7 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 
 	// Calculate initial solution cost & other stats
 	_, bestSolution.Cost, bestSolution.ProductCost, bestSolution.UsedDayCount = bestSolution.Combination.CalculateCost(
-		&problem.Basket,
+		&problem.Basket, false,
 	)
 
 	currentSolution := bestSolution
@@ -114,7 +114,7 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 			Combination: *s.mutateCombination(&currentSolution.Combination, storesPerProducts),
 		}
 		_, newSolution.Cost, newSolution.ProductCost, newSolution.UsedDayCount = newSolution.Combination.CalculateCost(
-			&problem.Basket,
+			&problem.Basket, false,
 		)
 
 		// If the new solution is better or te, accept it

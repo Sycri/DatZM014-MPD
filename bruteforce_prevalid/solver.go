@@ -73,7 +73,7 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	combinations := s.generateAllValidCombinations(&problem.Stores)
 	for _, newCombination := range *combinations {
 		if valid, newCost, newProductCost, newUsedDayCount := newCombination.CalculateCost(
-			&problem.Basket,
+			&problem.Basket, true,
 		); valid {
 			// Check if this is the new best combination
 			if solution.Cost > newCost {
