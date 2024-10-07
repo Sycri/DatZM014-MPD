@@ -16,7 +16,7 @@ const (
 
 type Solver struct{}
 
-func (*Solver) getStoresPerProducts(stores *[]models.Store) *map[models.ProductID][]models.ChosenStoreProduct {
+func (*Solver) getStoresPerProducts(stores *[]models.Store) map[models.ProductID][]models.ChosenStoreProduct {
 	storesPerProducts := make(map[models.ProductID][]models.ChosenStoreProduct)
 
 	// Map stores to products
@@ -38,17 +38,17 @@ func (*Solver) getStoresPerProducts(stores *[]models.Store) *map[models.ProductI
 		}
 	}
 
-	return &storesPerProducts
+	return storesPerProducts
 }
 
 func (*Solver) getInitialRandomCombination(
 	basketProducts *[]models.BasketProduct,
-	storesPerProducts *map[models.ProductID][]models.ChosenStoreProduct,
+	storesPerProducts map[models.ProductID][]models.ChosenStoreProduct,
 ) *models.Combination {
 	combination := make(models.Combination, len(*basketProducts))
 
 	for i, basketProduct := range *basketProducts {
-		productStores, ok := (*storesPerProducts)[basketProduct.ID]
+		productStores, ok := storesPerProducts[basketProduct.ID]
 		if !ok {
 			panic(fmt.Errorf("product %d not found among stores", basketProduct.ID))
 		}
@@ -63,7 +63,7 @@ func (*Solver) getInitialRandomCombination(
 
 func (*Solver) mutateCombination(
 	combination *models.Combination,
-	storesPerProducts *map[models.ProductID][]models.ChosenStoreProduct,
+	storesPerProducts map[models.ProductID][]models.ChosenStoreProduct,
 ) *models.Combination {
 	newCombination := make(models.Combination, len(*combination))
 	copy(newCombination, *combination)
@@ -71,7 +71,7 @@ func (*Solver) mutateCombination(
 	// Randomly change the store + day for one product
 	i := rand.Intn(len(newCombination))
 
-	productStores, ok := (*storesPerProducts)[(*combination)[i].ProductID]
+	productStores, ok := storesPerProducts[(*combination)[i].ProductID]
 	if !ok {
 		panic(fmt.Errorf("product %d not found among stores", (*combination)[i].ProductID))
 	}
