@@ -52,8 +52,9 @@ func (s *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.
 			if !slices.ContainsFunc(combination, func(element models.ChosenStoreProduct) bool {
 				return element.ProductID == initialElement.ProductID
 			}) {
-				combination = append(combination, initialElement)
-				newCombinations = append(newCombinations, combination)
+				newCombination := append(make([]models.ChosenStoreProduct, 0, len(combination)+1), combination...)
+				newCombination = append(newCombination, initialElement)
+				newCombinations = append(newCombinations, newCombination)
 			}
 		}
 
@@ -68,9 +69,9 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 		Cost: int64(math.MaxInt64),
 	}
 
-	// Iterate over all possible combinations
-	allCombinations := s.generateAllValidCombinations(&problem.Stores)
-	for _, newCombination := range *allCombinations {
+	// Iterate over all valid combinations
+	combinations := s.generateAllValidCombinations(&problem.Stores)
+	for _, newCombination := range *combinations {
 		if valid, newCost, newProductCost, newUsedDayCount := newCombination.CalculateCost(
 			&problem.Basket,
 		); valid {

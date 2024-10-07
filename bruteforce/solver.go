@@ -48,8 +48,9 @@ func (s *Solver) generateAllCombinations(stores *[]models.Store) *[]models.Combi
 
 		for _, combination := range combinations {
 			// Create combinations with all other elements
-			combination = append(combination, initialElement)
-			newCombinations = append(newCombinations, combination)
+			newCombination := append(make([]models.ChosenStoreProduct, 0, len(combination)+1), combination...)
+			newCombination = append(newCombination, initialElement)
+			newCombinations = append(newCombinations, newCombination)
 		}
 
 		combinations = append(combinations, newCombinations...)
@@ -64,8 +65,8 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 	}
 
 	// Iterate over all possible combinations
-	allCombinations := s.generateAllCombinations(&problem.Stores)
-	for _, newCombination := range *allCombinations {
+	combinations := s.generateAllCombinations(&problem.Stores)
+	for _, newCombination := range *combinations {
 		if valid, newCost, newProductCost, newUsedDayCount := newCombination.CalculateCost(
 			&problem.Basket,
 		); valid {
