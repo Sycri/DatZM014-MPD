@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	problem, err := utils.GetObjectFromFile[models.Problem]("./testdata/01_input.json")
+	problem, err := utils.GetObjectFromFile[models.Problem]("./testdata/02_input.json")
 	if err != nil {
 		panic(err)
 	}

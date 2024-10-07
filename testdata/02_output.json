@@ -1,0 +1,11 @@
+{
+    "Combination": [
+        { "StoreID": 2, "Day": 3, "ProductID": 1, "Price": 5 },
+        { "StoreID": 3, "Day": 1, "ProductID": 2, "Price": 18 },
+        { "StoreID": 3, "Day": 5, "ProductID": 3, "Price": 25 },
+        { "StoreID": 1, "Day": 1, "ProductID": 4, "Price": 15 }
+    ],
+    "UsedDayCount": 3,
+    "ProductCost": 149,
+    "Cost": 149
+}

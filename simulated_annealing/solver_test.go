@@ -24,3 +24,20 @@ func TestSolve01(t *testing.T) {
 
 	utils.CompareSolve(t, expected, actual)
 }
+
+func TestSolve02(t *testing.T) {
+	problem, err := utils.GetObjectFromFile[models.Problem]("../testdata/02_input.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	solver := simulated_annealing.Solver{}
+	actual := solver.Solve(problem)
+
+	expected, err := utils.GetObjectFromFile[models.Solution]("../testdata/02_output.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	utils.CompareSolve(t, expected, actual)
+}
