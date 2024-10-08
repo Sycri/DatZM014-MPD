@@ -1,8 +1,8 @@
 {
     "Combination": [
-        { "StoreID": 1, "Day": 1, "ProductID": 1, "Price": 10 },
-        { "StoreID": 1, "Day": 1, "ProductID": 2, "Price": 20 },
-        { "StoreID": 1, "Day": 2, "ProductID": 3, "Price": 30 }
+        { "StoreID": 1, "StoreName": "Maxima", "Day": 1, "ProductID": 1, "ProductName": "Yogurt", "Price": 10 },
+        { "StoreID": 1, "StoreName": "Maxima", "Day": 1, "ProductID": 2, "ProductName": "Apple", "Price": 20 },
+        { "StoreID": 1, "StoreName": "Maxima", "Day": 2, "ProductID": 3, "ProductName": "Cola", "Price": 30 }
     ],
     "UsedDayCount": 2,
     "ProductCost": 110,

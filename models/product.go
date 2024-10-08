@@ -12,10 +12,12 @@ type ProductID int
 type Combination []ChosenStoreProduct
 
 type ChosenStoreProduct struct {
-	StoreID   StoreID
-	Day       int
-	ProductID ProductID
-	Price     int
+	StoreID     StoreID
+	StoreName   string
+	Day         int
+	ProductID   ProductID
+	ProductName string
+	Price       int
 }
 
 func (c *Combination) CalculateCost(basket *Basket, validate bool) (bool, int64, int64, int) {
@@ -56,4 +58,22 @@ func (c *Combination) CalculateCost(basket *Basket, validate bool) (bool, int64,
 	}
 
 	return true, cost, productCost, usedDayCount
+}
+
+func (c *Combination) FillNames(basketProducts *[]BasketProduct, stores *[]Store) {
+	for i, element := range *c {
+		for _, basketProduct := range *basketProducts {
+			if element.ProductID == basketProduct.ID {
+				(*c)[i].ProductName = basketProduct.Name
+				break
+			}
+		}
+
+		for _, store := range *stores {
+			if element.StoreID == store.ID {
+				(*c)[i].StoreName = store.Name
+				break
+			}
+		}
+	}
 }

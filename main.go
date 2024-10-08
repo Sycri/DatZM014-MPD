@@ -36,6 +36,8 @@ func main() {
 		solution := solver.Solve(problem)
 		elapsedTime := time.Since(startTime)
 
+		solution.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
+
 		jsonBytes, err = json.Marshal(solution)
 		if err != nil {
 			panic(err)

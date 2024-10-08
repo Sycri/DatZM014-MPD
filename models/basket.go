@@ -7,5 +7,6 @@ type Basket struct {
 
 type BasketProduct struct {
 	ID       ProductID
+	Name     string
 	Quantity int
 }

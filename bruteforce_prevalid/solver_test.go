@@ -16,6 +16,7 @@ func TestSolve01(t *testing.T) {
 
 	solver := bruteforce_prevalid.Solver{}
 	actual := solver.Solve(problem)
+	actual.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
 
 	expected, err := utils.GetObjectFromFile[models.Solution]("../testdata/01_output.json")
 	if err != nil {
@@ -33,6 +34,7 @@ func TestSolve02(t *testing.T) {
 
 	solver := bruteforce_prevalid.Solver{}
 	actual := solver.Solve(problem)
+	actual.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
 
 	expected, err := utils.GetObjectFromFile[models.Solution]("../testdata/02_output.json")
 	if err != nil {
