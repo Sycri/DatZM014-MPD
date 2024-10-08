@@ -9,7 +9,7 @@ import (
 
 type ProductID int
 
-type Combination []ChosenStoreProduct
+type Combination []*ChosenStoreProduct
 
 type ChosenStoreProduct struct {
 	StoreID     StoreID
@@ -27,7 +27,7 @@ func (c *Combination) CalculateCost(basket *Basket, validate bool) (bool, int64,
 	if validate {
 		for _, basketProduct := range basket.Products {
 			// Reject combination if a product in the basket is not in this combination
-			if !slices.ContainsFunc(*c, func(element ChosenStoreProduct) bool {
+			if !slices.ContainsFunc(*c, func(element *ChosenStoreProduct) bool {
 				return basketProduct.ID == element.ProductID
 			}) {
 				return false, int64(math.MaxInt64), -1, -1

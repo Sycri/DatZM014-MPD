@@ -9,14 +9,14 @@ import (
 
 type Solver struct{}
 
-func (*Solver) getFlattenedElements(stores *[]models.Store) *[]models.ChosenStoreProduct {
-	flattenedElements := []models.ChosenStoreProduct{}
+func (*Solver) getFlattenedElements(stores *[]models.Store) []*models.ChosenStoreProduct {
+	flattenedElements := []*models.ChosenStoreProduct{}
 
 	// Flatten store products in each day to a single array
 	for _, store := range *stores {
 		for day, products := range store.DayOfferings {
 			for _, product := range products {
-				flattenedElements = append(flattenedElements, models.ChosenStoreProduct{
+				flattenedElements = append(flattenedElements, &models.ChosenStoreProduct{
 					StoreID:   store.ID,
 					Day:       day,
 					ProductID: product.ID,
@@ -26,10 +26,10 @@ func (*Solver) getFlattenedElements(stores *[]models.Store) *[]models.ChosenStor
 		}
 	}
 
-	return &flattenedElements
+	return flattenedElements
 }
 
-func (s *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.Combination {
+func (s *Solver) generateValidCombinations(stores *[]models.Store) *[]models.Combination {
 	if len(*stores) == 0 {
 		return &[]models.Combination{}
 	}
@@ -39,20 +39,25 @@ func (s *Solver) generateAllValidCombinations(stores *[]models.Store) *[]models.
 	combinations := []models.Combination{}
 
 	// Initialize each combination with first element
-	for _, initialElement := range *initialElements {
+	for _, initialElement := range initialElements {
 		combinations = append(combinations, models.Combination{initialElement})
 	}
 
-	// Generate all combinations
-	for _, initialElement := range *initialElements {
-		newCombinations := []models.Combination{}
+	var (
+		newCombination  []*models.ChosenStoreProduct
+		newCombinations []models.Combination
+	)
+
+	// Generate all valid combinations
+	for _, initialElement := range initialElements {
+		newCombinations = []models.Combination{}
 
 		for _, combination := range combinations {
 			// Create combinations with all other elements that have different product IDs
-			if !slices.ContainsFunc(combination, func(element models.ChosenStoreProduct) bool {
+			if !slices.ContainsFunc(combination, func(element *models.ChosenStoreProduct) bool {
 				return element.ProductID == initialElement.ProductID
 			}) {
-				newCombination := append(make([]models.ChosenStoreProduct, 0, len(combination)+1), combination...)
+				newCombination = append(make([]*models.ChosenStoreProduct, 0, len(combination)+1), combination...)
 				newCombination = append(newCombination, initialElement)
 				newCombinations = append(newCombinations, newCombination)
 			}
@@ -69,8 +74,9 @@ func (s *Solver) Solve(problem *models.Problem) *models.Solution {
 		Cost: int64(math.MaxInt64),
 	}
 
+	combinations := s.generateValidCombinations(&problem.Stores)
+
 	// Iterate over all valid combinations
-	combinations := s.generateAllValidCombinations(&problem.Stores)
 	for _, newCombination := range *combinations {
 		if valid, newCost, newProductCost, newUsedDayCount := newCombination.CalculateCost(
 			&problem.Basket, true,

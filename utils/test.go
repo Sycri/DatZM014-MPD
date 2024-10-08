@@ -24,16 +24,16 @@ func CompareSolve(t *testing.T, expected *models.Solution, actual *models.Soluti
 		t.Errorf("Combination length expected %d, got %d", len(expected.Combination), len(actual.Combination))
 	}
 
-	slices.SortFunc(actual.Combination, func(a, b models.ChosenStoreProduct) int {
+	slices.SortFunc(actual.Combination, func(a, b *models.ChosenStoreProduct) int {
 		return int(a.ProductID - b.ProductID)
 	})
 
-	slices.SortFunc(expected.Combination, func(a, b models.ChosenStoreProduct) int {
+	slices.SortFunc(expected.Combination, func(a, b *models.ChosenStoreProduct) int {
 		return int(a.ProductID - b.ProductID)
 	})
 
 	for i, element := range actual.Combination {
-		if element != expected.Combination[i] {
+		if *element != *expected.Combination[i] {
 			t.Errorf("Combination element %d expected %+v, got %+v", i, expected.Combination[i], element)
 		}
 	}

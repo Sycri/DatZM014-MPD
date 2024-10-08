@@ -55,7 +55,7 @@ func (*Solver) getInitialRandomCombination(
 
 		// Find random store + day for product
 		randomProductStoreIndex := rand.Intn(len(productStores))
-		combination[i] = productStores[randomProductStoreIndex]
+		combination[i] = &productStores[randomProductStoreIndex]
 	}
 
 	return &combination
@@ -78,7 +78,7 @@ func (*Solver) mutateCombination(
 
 	// Find random store + day for product
 	randomProductStoreIndex := rand.Intn(len(productStores))
-	newCombination[i] = productStores[randomProductStoreIndex]
+	newCombination[i] = &productStores[randomProductStoreIndex]
 
 	return &newCombination
 }
