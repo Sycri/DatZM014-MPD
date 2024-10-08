@@ -1,0 +1,127 @@
+{
+    "Stores": [
+        {
+            "ID": 1,
+            "Name": "Maxima",
+            "DayOfferings": [
+                {
+                    "Day": 1,
+                    "Products": [
+                        { "ID": 1, "Price": 10 },
+                        { "ID": 2, "Price": 20 },
+                        { "ID": 4, "Price": 15 }
+                    ]
+                },
+                {
+                    "Day": 2,
+                    "Products": [
+                        { "ID": 3, "Price": 30 },
+                        { "ID": 4, "Price": 25 },
+                        { "ID": 5, "Price": 45 }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 2,
+            "Name": "Rimi",
+            "DayOfferings": [
+                {
+                    "Day": 3,
+                    "Products": [
+                        { "ID": 1, "Price": 5 },
+                        { "ID": 2, "Price": 22 },
+                        { "ID": 5, "Price": 48 }
+                    ]
+                },
+                {
+                    "Day": 4,
+                    "Products": [
+                        { "ID": 3, "Price": 28 }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 3,
+            "Name": "Mego",
+            "DayOfferings": [
+                {
+                    "Day": 1,
+                    "Products": [
+                        { "ID": 1, "Price": 12 },
+                        { "ID": 2, "Price": 18 },
+                        { "ID": 5, "Price": 47 }
+                    ]
+                },
+                {
+                    "Day": 3,
+                    "Products": [
+                        { "ID": 3, "Price": 29 },
+                        { "ID": 4, "Price": 27 }
+                    ]
+                },
+                {
+                    "Day": 5,
+                    "Products": [
+                        { "ID": 1, "Price": 11 },
+                        { "ID": 3, "Price": 25 },
+                        { "ID": 5, "Price": 44 }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 4,
+            "Name": "Lidl",
+            "DayOfferings": [
+                {
+                    "Day": 2,
+                    "Products": [
+                        { "ID": 1, "Price": 9 },
+                        { "ID": 3, "Price": 27 }
+                    ]
+                },
+                {
+                    "Day": 4,
+                    "Products": [
+                        { "ID": 2, "Price": 19 },
+                        { "ID": 4, "Price": 26 },
+                        { "ID": 5, "Price": 46 }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 5,
+            "Name": "Elvi",
+            "DayOfferings": [
+                {
+                    "Day": 1,
+                    "Products": [
+                        { "ID": 1, "Price": 8 },
+                        { "ID": 2, "Price": 17 },
+                        { "ID": 5, "Price": 41 }
+                    ]
+                },
+                {
+                    "Day": 3,
+                    "Products": [
+                        { "ID": 3, "Price": 24 },
+                        { "ID": 4, "Price": 22 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "Basket": {
+        "Products": [
+            { "ID": 1, "Name": "Yogurt", "Quantity": 2 },
+            { "ID": 2, "Name": "Apple", "Quantity": 3 },
+            { "ID": 3, "Name": "Cola", "Quantity": 1 },
+            { "ID": 4, "Name": "Banana", "Quantity": 4 },
+            { "ID": 5, "Name": "Orange", "Quantity": 5 }
+        ],
+        "SoftMaxDays": 3
+    }
+}

@@ -43,3 +43,21 @@ func TestSolve02(t *testing.T) {
 
 	utils.CompareSolve(t, expected, actual)
 }
+
+func TestSolve03(t *testing.T) {
+	problem, err := utils.GetObjectFromFile[models.Problem]("../testdata/03_input.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	solver := bruteforce_prevalid.Solver{}
+	actual := solver.Solve(problem)
+	actual.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
+
+	expected, err := utils.GetObjectFromFile[models.Solution]("../testdata/03_output.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	utils.CompareSolve(t, expected, actual)
+}
