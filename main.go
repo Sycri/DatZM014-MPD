@@ -14,8 +14,8 @@ import (
 
 func main() {
 	filePathIterations := map[string]int{
-		"./testdata/01_input.json": 100,
-		"./testdata/02_input.json": 100,
+		"./testdata/01_input.json": 10000,
+		"./testdata/02_input.json": 1000,
 		"./testdata/03_input.json": 100,
 		"./testdata/04_input.json": 5,
 	}
@@ -42,13 +42,20 @@ func main() {
 		}
 
 		for solver, name := range solvers {
-			averageTime := time.Duration(0)
+			iterationInterval := time.Duration(iterations)
+
+			sumSolveTime := time.Duration(0)
+			sumIterationTime := time.Duration(0)
+
+			startLoopTime := time.Now()
 
 			for i := 0; i < iterations; i++ {
 				startTime := time.Now()
+
 				solution := solver.Solve(problem)
-				elapsedTime := time.Since(startTime)
-				averageTime += elapsedTime
+
+				elapsedSolveTime := time.Since(startTime)
+				sumSolveTime += elapsedSolveTime
 
 				solution.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
 
@@ -57,10 +64,25 @@ func main() {
 					panic(err)
 				}
 
-				fmt.Printf("%s solver solution #%d (%s): %s\n", name, i+1, elapsedTime, string(jsonBytes))
+				elapsedIterationTime := time.Since(startTime)
+				sumIterationTime += elapsedIterationTime
+
+				fmt.Printf(
+					"%s solver solution #%d (solve time: %s, iteration time: %s): %s\n",
+					name, i+1, elapsedSolveTime, elapsedIterationTime, string(jsonBytes),
+				)
 			}
 
-			fmt.Printf("%s solver average time: %s\n", name, (averageTime / time.Duration(iterations)))
+			elapsedLoopTime := time.Since(startLoopTime)
+			averageLoopTime := elapsedLoopTime / iterationInterval
+
+			averageSolveTime := sumSolveTime / iterationInterval
+			averageIterationTime := sumIterationTime / iterationInterval
+
+			fmt.Printf(
+				"%s solver average solve time - %s, average iteration time - %s, elapsed loop time - %s, average loop time - %s\n",
+				name, averageSolveTime, averageIterationTime, elapsedLoopTime, averageLoopTime,
+			)
 		}
 	}
 }
