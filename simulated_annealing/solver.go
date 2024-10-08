@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	initialTemperature = 1000.0
+	initialTemperature = 100.0
 	coolingRate        = 0.99
-	maxIterations      = 10000
+	maxIterations      = 1000
 )
 
 type Solver struct{}
