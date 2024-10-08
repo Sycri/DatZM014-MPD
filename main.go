@@ -27,7 +27,7 @@ func main() {
 
 	solvers := map[models.Solver]string{
 		&bruteforce_prevalid.Solver{}: "Bruteforce pre-validation",
-		&bruteforce.Solver{}:          "Bruteforce no pre-validation",
+		&bruteforce_powerset.Solver{}: "Bruteforce powerset",
 		&simulated_annealing.Solver{}: "Simulated annealing",
 	}
 

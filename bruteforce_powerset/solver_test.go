@@ -1,9 +1,9 @@
-package bruteforce_test
+package bruteforce_powerset_test
 
 import (
 	"testing"
 
-	"github.com/Sycri/DatZM014-MPD/bruteforce"
+	"github.com/Sycri/DatZM014-MPD/bruteforce_powerset"
 	"github.com/Sycri/DatZM014-MPD/models"
 	"github.com/Sycri/DatZM014-MPD/utils"
 )
@@ -14,7 +14,7 @@ func TestSolve01(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solver := bruteforce.Solver{}
+	solver := bruteforce_powerset.Solver{}
 	actual := solver.Solve(problem)
 	actual.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
 
@@ -32,7 +32,7 @@ func TestSolve02(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	solver := bruteforce.Solver{}
+	solver := bruteforce_powerset.Solver{}
 	actual := solver.Solve(problem)
 	actual.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
 
