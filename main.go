@@ -17,7 +17,7 @@ func main() {
 		"./testdata/01_input.json": 100,
 		"./testdata/02_input.json": 100,
 		"./testdata/03_input.json": 100,
-		"./testdata/04_input.json": 10,
+		"./testdata/04_input.json": 5,
 	}
 
 	for filePath, iterations := range filePathIterations {
