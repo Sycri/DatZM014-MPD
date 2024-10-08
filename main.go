@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Sycri/DatZM014-MPD/bruteforce"
 	"github.com/Sycri/DatZM014-MPD/bruteforce_prevalid"
+	"github.com/Sycri/DatZM014-MPD/bruteforce_powerset"
 	"github.com/Sycri/DatZM014-MPD/models"
 	"github.com/Sycri/DatZM014-MPD/simulated_annealing"
 	"github.com/Sycri/DatZM014-MPD/utils"
