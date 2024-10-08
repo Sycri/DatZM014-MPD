@@ -13,36 +13,54 @@ import (
 )
 
 func main() {
-	problem, err := utils.GetObjectFromFile[models.Problem]("./testdata/03_input.json")
-	if err != nil {
-		panic(err)
+	filePathIterations := map[string]int{
+		"./testdata/01_input.json": 100,
+		"./testdata/02_input.json": 100,
+		"./testdata/03_input.json": 100,
+		"./testdata/04_input.json": 10,
 	}
 
-	jsonBytes, err := json.Marshal(problem)
-	if err != nil {
-		panic(err)
-	}
+	for filePath, iterations := range filePathIterations {
+		fmt.Printf("File: %s\n", filePath)
 
-	fmt.Printf("Problem: %s\n", string(jsonBytes))
-
-	solvers := map[models.Solver]string{
-		&bruteforce_prevalid.Solver{}: "Bruteforce pre-validation",
-		&bruteforce_powerset.Solver{}: "Bruteforce powerset",
-		&simulated_annealing.Solver{}: "Simulated annealing",
-	}
-
-	for solver, name := range solvers {
-		startTime := time.Now()
-		solution := solver.Solve(problem)
-		elapsedTime := time.Since(startTime)
-
-		solution.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
-
-		jsonBytes, err = json.Marshal(solution)
+		problem, err := utils.GetObjectFromFile[models.Problem](filePath)
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Printf("%s solver solution (%s): %s\n", name, elapsedTime, string(jsonBytes))
+		jsonBytes, err := json.Marshal(problem)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Printf("Problem: %s\n", string(jsonBytes))
+
+		solvers := map[models.Solver]string{
+			&bruteforce_powerset.Solver{}: "Bruteforce powerset",
+			&bruteforce_prevalid.Solver{}: "Bruteforce pre-validation",
+			&simulated_annealing.Solver{}: "Simulated annealing",
+		}
+
+		for solver, name := range solvers {
+			averageTime := time.Duration(0)
+
+			for i := 0; i < iterations; i++ {
+				startTime := time.Now()
+				solution := solver.Solve(problem)
+				elapsedTime := time.Since(startTime)
+				averageTime += elapsedTime
+
+				solution.Combination.FillNames(&problem.Basket.Products, &problem.Stores)
+
+				jsonBytes, err = json.Marshal(solution)
+				if err != nil {
+					panic(err)
+				}
+
+				fmt.Printf("%s solver solution #%d (%s): %s\n", name, i+1, elapsedTime, string(jsonBytes))
+			}
+
+			fmt.Printf("%s solver average time: %s\n", name, (averageTime / time.Duration(iterations)))
+		}
 	}
 }
