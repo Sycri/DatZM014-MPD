@@ -61,4 +61,3 @@ func TestSolve03(t *testing.T) {
 
 	utils.CompareSolve(t, expected, actual)
 }
-
